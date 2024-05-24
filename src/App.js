@@ -14,19 +14,6 @@ function App() {
         <Routes>
           <Route path="/" element={<Hero />} />
           <Route path="/games/:id" element={<Pubg />} />
-          {/* <Route path="/pubg" element={<Pubg />} />
-          <Route path="/telegram" /> 
-          <Route path="/mobilelegends" />
-          <Route path="/ffire" />
-          <Route path="/statemobile" />
-          <Route path="/standoff" />
-          <Route path="/arena" />
-          <Route path="/asphalt" />
-          <Route path="/dragracing" />
-          <Route path="/bigo" />
-          <Route path="/brawlstars" />
-          <Route path="/genshin" />
-          <Route path="/callofduty" /> */}
         </Routes>
       </Router>
     </div>

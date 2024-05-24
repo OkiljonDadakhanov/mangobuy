@@ -40,7 +40,7 @@ function Hero() {
                 src={card.image_url}
                 name={card.name}
                 page={`/games/${card.id}`}
-              />
+              />  
             </Link>
           ))}
         </div>

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Dialog } from "@headlessui/react";
 import axios from "axios";
+import { v4 as uuidv4 } from "uuid";
 
 function GameCoins({ onClick, src, name, amount, productId }) {
   const [isPlayerModalOpen, setIsPlayerModalOpen] = useState(false);
@@ -34,11 +35,18 @@ function GameCoins({ onClick, src, name, amount, productId }) {
     setError(null);
     setSuccess(false);
 
+    // Validate Inputs
+    if (!validateInputs()) {
+      setLoading(false);
+      return;
+    }
+
     const paymentData = {
       card_number: cardNumber,
       expire_date: expireDate,
       product_id: productId,
       inputs: { player_id: playerID },
+      uuid: uuidv4(), // Generating UUID
     };
 
     console.log("Sending Payment Data:", paymentData); // Debugging: Log the payload
@@ -73,15 +81,26 @@ function GameCoins({ onClick, src, name, amount, productId }) {
   };
 
   const handleExpireDateChange = (e) => {
-    let value = e.target.value.replace(/\D/g, ""); // Remove non-digit characters
+    let value = e.target.value.replace(/\D/g, "");
 
     if (value.length >= 3) {
       const month = value.slice(0, 2);
       const year = value.slice(2, 4);
-      value = `${month}${year}`;
+      value = `${month}/${year}`;
     }
 
     setExpireDate(value);
+  };
+
+  const validateInputs = () => {
+    if (!playerID.trim() || !cardNumber.trim() || !expireDate.trim()) {
+      setError("All fields are required.");
+      return false;
+    }
+
+    // Add more validation rules here if needed
+
+    return true;
   };
 
   return (
@@ -205,4 +224,3 @@ function GameCoins({ onClick, src, name, amount, productId }) {
 }
 
 export default GameCoins;
-
