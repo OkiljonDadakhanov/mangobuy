@@ -1,0 +1,17 @@
+.button {
+  background-color: #ffa200;
+  padding: 10px;
+  width: 100%;
+  min-width: 232px !important;
+  border-radius: 100px;
+  font-weight: 500;
+  font-size: 14px;
+  color: #fff;
+  cursor: pointer;
+
+  &:disabled {
+    background-color: #1d1b201f;
+    color: #211a13;
+    cursor: default;
+  }
+}

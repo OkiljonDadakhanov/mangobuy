@@ -1,23 +1,15 @@
-import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import Cards from "./GameCards";
+import useGetGameList from "../api/useGetGameList";
+import Cards from "../components/GameCards";
 import "../index.css";
 
-const baseURL = "https://mangobuy.store/api/v1/games/list";
 
-function Hero() {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+function HomeScreen() {
+  const {getGameList, gameList, loading, error} = useGetGameList()
 
   useEffect(() => {
-    setLoading(true);
-    axios
-      .get(baseURL)
-      .then((res) => setData(res.data))
-      .catch((err) => setError(err.message))
-      .finally(() => setLoading(false));
+    getGameList()
   }, []);
 
   if (loading) {
@@ -33,7 +25,7 @@ function Hero() {
       <h1 className="text-4xl mt-10 text-white mb-10">Популярные игры</h1>
       <div className="h-screen cards_section flex flex-wrap justify-around mt-7">
  
-          {data?.map((card) => (
+          {gameList?.map((card) => (
             <Link to={`/games/${card.id}`} key={card.id}>
               <Cards
                 key={card.id}
@@ -49,4 +41,4 @@ function Hero() {
   );
 }
 
-export default Hero;
+export default HomeScreen;

@@ -1,0 +1,48 @@
+.otpInputContainer {
+  width: 100%;
+  gap: 4px;
+}
+
+.otpInputStyle {
+  width: 48px !important;
+  height: 48px;
+  background-color: #f9f4f0;
+  border: 1px solid #827568;
+  border-radius: 4px;
+  color: #ffa200;
+  font-size: 28px;
+}
+
+.otpErrorStyle {
+  width: 48px !important;
+  height: 48px;
+  background-color: #f9f4f0;
+  border: 2px solid #54633d;
+  border-radius: 4px;
+  color: #54633d;
+  font-size: 28px;
+}
+
+.otpInputStyle:focus {
+  outline-width: 2px;
+  outline-color: #ffa200;
+}
+
+.otpFocusStyle {
+  width: 48px !important;
+  height: 48px;
+  background-color: #f9f4f0;
+  border: 2px solid #ffa200;
+  border-radius: 4px;
+  color: #ffa200;
+  font-size: 28px;
+  outline-width: 2px;
+  outline-color: #ffa200;
+}
+
+.resendCode {
+  width: 100%;
+  text-align: center;
+  font-size: 14px;
+  color: #ffa200;
+}
