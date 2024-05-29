@@ -30,9 +30,14 @@ function PaymentModal({
           <input
             type="number"
             value={cardNumber}
-            onChange={(e) => setCardNumber(e.target.value)}
+            onChange={(e) => {
+              if (e.target.value.length <= 16) {
+                setCardNumber(e.target.value);
+              }
+            }}
             className="mt-1 p-2 border border-gray-300 rounded w-full"
             required
+            maxLength={16}
           />
         </div>
         <div className="mt-4">

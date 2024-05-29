@@ -1,11 +1,11 @@
-import {useState} from "react";
+import {useCallback, useState} from "react";
 import API from "../utils/API";
 
 function useGetGameList() {
   const [gameList, setGameList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const getGameList = async () => {
+  const getGameList = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -17,7 +17,7 @@ function useGetGameList() {
       setLoading(false);
       setError(error);
     }
-  };
+  }, []);
   return {
     gameList,
     getGameList,

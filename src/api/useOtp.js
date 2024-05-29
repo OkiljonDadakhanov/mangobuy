@@ -27,15 +27,28 @@ function useOtp() {
     try {
       setLoading(true);
       setError(null);
-      const res = await API.post("/payments/resend_otp", {
-        card_number,
-        expire_date,
-        transaction_id,
-      });
+      const parsedUUID = JSON.parse(localStorage.getItem("uuid"));
+
+      const res = await API.post(
+        "/payments/resend_otp",
+        {
+          card_number,
+          expire_date,
+          transaction_id,
+        },
+        {
+          headers: {
+            "user-uuid": parsedUUID,
+          },
+        }
+      );
+
+      console.log("resend payment data:", res.data);
 
       setLoading(false);
       setPaymentData(res.data);
     } catch (error) {
+      setLoading(false);
       setError(error);
     }
   };

@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useCallback, useState} from "react";
 import API from "../utils/API";
 
 function useGetPaymentList() {
@@ -6,7 +6,7 @@ function useGetPaymentList() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const getPaymentList = async (page, limit) => {
+  const getPaymentList = useCallback(async (page, limit) => {
     try {
       setLoading(true);
       setError(null);
@@ -26,7 +26,7 @@ function useGetPaymentList() {
       setError(error);
       setLoading(false);
     }
-  };
+  }, []);
   return {
     getPaymentList,
     paymentList,

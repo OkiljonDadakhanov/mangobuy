@@ -17,6 +17,7 @@ function ServiceCard({src, name, amount, productId, vendors}) {
   const [expireDate, setExpireDate] = useState("");
   const [otp, setOtp] = useState("");
   const [inputValues, setInputValues] = useState({});
+  const [inputRequirement, setInputRequirement] = useState({});
   const {paymentData} = useContext(Context);
   const {payment, loading, error} = usePayment();
   const {
@@ -80,7 +81,11 @@ function ServiceCard({src, name, amount, productId, vendors}) {
   };
 
   const handleReSendOtp = () => {
-    reSendOtp(cardNumber, formattedExpireDate, paymentData.transaction_id);
+    reSendOtp(
+      cardNumber,
+      formattedExpireDate,
+      Number(paymentData.transaction_id)
+    );
   };
   const handleExpireDateChange = (e) => {
     let value = e.target.value.replace(/\D/g, "");
@@ -95,17 +100,29 @@ function ServiceCard({src, name, amount, productId, vendors}) {
   };
 
   const handleInputChange = (vendor, value) => {
-    // const regex = new RegExp(vendor.regex);
-    // const isValid = regex.test(value);
-
-    // console.log(isValid);
-
+    const regex = new RegExp(vendor.regex);
+    const requirement = getRangeFromRegex(regex);
+    setInputRequirement({...inputRequirement, [vendor.key]: requirement});
     setInputValues({
       ...inputValues,
       [vendor.key]: value,
     });
   };
 
+  function getRangeFromRegex(regex) {
+    const regexStr = regex.toString();
+
+    const rangeRegex = /\{(\d+),(\d+)\}\$/;
+    const match = regexStr.match(rangeRegex);
+
+    if (match) {
+      const minLength = parseInt(match[1], 10);
+      const maxLength = parseInt(match[2], 10);
+      return {minLength, maxLength};
+    } else {
+      return {minLength: 1, maxLength: 1};
+    }
+  }
   return (
     <div className="max-w-sm rounded overflow-hidden shadow-lg m-5">
       <div
@@ -131,6 +148,7 @@ function ServiceCard({src, name, amount, productId, vendors}) {
         onClose={handleClosePlayerModal}
         vendors={vendors}
         inputValues={inputValues}
+        inputRequirement={inputRequirement}
         handleInputChange={handleInputChange}
         onSubmit={handleSubmitPlayerID}
       />

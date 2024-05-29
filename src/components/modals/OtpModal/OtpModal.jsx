@@ -19,7 +19,7 @@ function OtpModal({
   const [timer, setTimer] = useState(60);
   useEffect(() => {
     let intervalId;
-    if (isOpen) {
+    if (isOpen && !loading) {
       if (timer > 0) {
         intervalId = setInterval(() => {
           setTimer((prevTimer) => prevTimer - 1);
@@ -28,7 +28,7 @@ function OtpModal({
     }
 
     return () => clearInterval(intervalId);
-  }, [timer, isOpen]);
+  }, [timer, isOpen, loading]);
 
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60);

@@ -15,6 +15,8 @@ function usePayment() {
           "user-uuid": uuid,
         },
       });
+
+      console.log("payment data:", res.data);
       setPaymentData(res?.data);
 
       setLoading(false);

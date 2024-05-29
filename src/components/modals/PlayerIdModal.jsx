@@ -1,5 +1,5 @@
 import {Dialog} from "@headlessui/react";
-import React from "react";
+import React, {useState} from "react";
 
 function PlayerIdModal({
   isOpen,
@@ -8,7 +8,10 @@ function PlayerIdModal({
   inputValues,
   handleInputChange,
   onSubmit,
+  inputRequirement,
 }) {
+  const [error, setError] = useState({});
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   return (
     <Dialog
       open={isOpen}
@@ -29,10 +32,44 @@ function PlayerIdModal({
               <input
                 type={vendor.input_type}
                 value={inputValues[vendor.key] || ""}
-                onChange={(e) => handleInputChange(vendor, e.target.value)}
+                onChange={(e) => {
+                  handleInputChange(vendor, e.target.value);
+                  if (
+                    e.target.value.length <
+                    inputRequirement[vendor.key]?.minLength
+                  ) {
+                    setError({
+                      ...error,
+                      [vendor.key]:
+                        "Min length " + inputRequirement[vendor.key]?.minLength,
+                    });
+                    setIsButtonDisabled(true);
+                  } else if (
+                    e.target.value.length >
+                    inputRequirement[vendor.key]?.maxLength
+                  ) {
+                    setError({
+                      ...error,
+                      [vendor.key]:
+                        "Max length " + inputRequirement[vendor.key]?.maxLength,
+                    });
+                    setIsButtonDisabled(true);
+                  } else {
+                    setError({
+                      ...error,
+                      [vendor.key]: null,
+                    });
+                    setIsButtonDisabled(false);
+                  }
+                }}
                 className="mt-1 p-2 border border-gray-300 rounded w-full"
                 required
+                minLength={inputRequirement[vendor.key]?.minLength}
+                maxLength={inputRequirement[vendor.key]?.maxLength}
               />
+              {error[vendor.key] && (
+                <p className="text-red-500 mt-2">{error[vendor.key]}</p>
+              )}
             </div>
           );
         })}
@@ -45,6 +82,7 @@ function PlayerIdModal({
           </button>
           <button
             onClick={onSubmit}
+            disabled={isButtonDisabled}
             className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
           >
             Submit
